@@ -1,9 +1,10 @@
 {
-  "name": "angular-img-cropper",
-  "version": "1.0.0",
-  "homepage": "http://blog.allanbishop.com/angularjs-image-cropper.html",
+  "name": "angular-img-cropper-nullest",
+  "version": "1.1.0",
+  "homepage": "https://github.com/McNull/angular-img-cropper",
   "authors": [
-    "Allan Bishop<allan.bishop@gmail.com>"
+    "Allan Bishop<allan.bishop@gmail.com>",
+    "(null) McNull<noreplies@hotmail.com>"
   ],
   "description": "Client side image cropper directive for AngularJS (rectangular area, aspect ratio, multi-touch)",
   "main": "dist/angular-img-cropper.js",
@@ -14,7 +15,8 @@
     "img",
     "rectangle",
     "aspect",
-    "crop"
+    "crop",
+    "canvas"
   ],
   "license": "MIT",
   "ignore": [
@@ -23,7 +25,9 @@
     "src",
     "test",
     "package.json",
-    "gruntfile.js",
+    "gulpfile.js",
+    "jsconfig.js",
+    "typings.json",
     ".git",
     ".idea",
     ".txt"

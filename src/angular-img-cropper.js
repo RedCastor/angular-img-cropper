@@ -23,34 +23,34 @@
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
 
-  mod.directive("canvasResponsive", function($window) {
-    return {
-      restrict: 'A',
-      link: function($scope, $element, $attrs) {
+  // mod.directive("canvasResponsive", function($window) {
+  //   return {
+  //     restrict: 'A',
+  //     link: function($scope, $element, $attrs) {
         
-        var canvas = $element.find('canvas')[0];
-        var element = $element[0];
-        var ratio = canvas.offsetHeight / canvas.offsetWidth;
+  //       var canvas = $element.find('canvas')[0];
+  //       var element = $element[0];
+  //       var ratio = canvas.offsetHeight / canvas.offsetWidth;
 
-        function scale() {
-          canvas.width = element.offsetWidth;
-          canvas.height = canvas.width * ratio;
-          console.log(canvas.width);
-          console.log(canvas.height);
-        } 
+  //       function scale() {
+  //         canvas.width = element.offsetWidth;
+  //         canvas.height = canvas.width * ratio;
+  //         console.log(canvas.width);
+  //         console.log(canvas.height);
+  //       } 
 
-        scale();
+  //       scale();
 
-        $(window).bind('resize', function() {
+  //       $(window).bind('resize', function() {
         
-          scale();
+  //         scale();
 
 
-        });
+  //       });
 
-      }
-    };
-  });
+  //     }
+  //   };
+  // });
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -128,11 +128,6 @@
         scope.$watch('keepAspect', setup);
         scope.$watch('touchRadius', setup);
 
-//         scope.$watch(function() {
-//           return canvas.width + canvas.height;
-//         }, function() {
-//           setup();
-//         });
 
         scope.$watch('imgSrc', load);
 
