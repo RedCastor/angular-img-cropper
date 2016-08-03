@@ -37,7 +37,7 @@ Or
 - Install with Bower
 
 ```javascript
-bower install angular-img-cropper
+bower install angular-img-cropper-nullest
 ```
 
 
