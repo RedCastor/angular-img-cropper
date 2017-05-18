@@ -1,10 +1,11 @@
 {
-  "name": "angular-img-cropper-nullest",
-  "version": "1.2.2",
-  "homepage": "https://github.com/McNull/angular-img-cropper",
+  "name": "angular-img-cropper-redcastor",
+  "version": "1.2.3",
+  "homepage": "https://github.com/redcastor/angular-img-cropper",
   "authors": [
     "Allan Bishop<allan.bishop@gmail.com>",
-    "(null) McNull<noreplies@hotmail.com>"
+    "(null) McNull<noreplies@hotmail.com>",
+    "Auban le Grelle <team@redcastor.io>"
   ],
   "description": "Client side image cropper directive for AngularJS (rectangular area, aspect ratio, multi-touch)",
   "main": "dist/angular-img-cropper.js",
