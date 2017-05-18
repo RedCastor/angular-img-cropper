@@ -5,9 +5,10 @@
   mod.factory('CornerMarker', function(Handle, __extends) {
      var CornerMarker = (function (_super) {
           __extends(CornerMarker, _super);
-          function CornerMarker(x, y, radius, color) {
+          function CornerMarker(x, y, radius, color, colorCropBg) {
             _super.call(this, x, y, radius);
             this.color = color | 'rgba(90,90,90,0.75)';
+            this.colorCropBg = colorCropBg | 'rgba(0,0,0,1)';
           }
 
           CornerMarker.prototype.drawCornerBorder = function (ctx) {
@@ -55,7 +56,7 @@
             ctx.lineTo(this.position.x, this.position.y + (sideLength * vDirection));
             ctx.lineTo(this.position.x, this.position.y);
             ctx.closePath();
-            ctx.fillStyle = 'rgba(0,0,0,1)';
+            ctx.fillStyle = this.colorCropBg;
             ctx.fill();
           };
           CornerMarker.prototype.moveX = function (x) {

@@ -68,15 +68,21 @@
         minHeight: "=",
         enforceCropAspect: "=",
         enforceFileType: "@",
-        color: "@"
+        color: "@",
+        colorDrag: "@",
+        colorBg: '@',
+        colorCropBg: '@'
       },
       restrict: "A",
       link: function (scope, element, attrs) {
-        
+
         var crop, destroyed = false;
         var canvas = element[0];
 
         scope.color = scope.color || 'rgba(90,90,90,0.75)';
+        scope.colorDrag = scope.colorDrag || 'rgba(0, 0, 0, 0.7)';
+        scope.colorBg = scope.colorBg || 'rgba(192,192,192,1)';
+        scope.colorCropBg = scope.colorCropBg || 'rgba(0, 0, 0, 0.7)';
 
         scope.$on('$destroy', function () {
           destroyed = true;
@@ -87,7 +93,7 @@
             return;
           }
 
-          
+
           var width = scope.cropWidth;
           var height = scope.cropHeight;
           var keepAspect = scope.keepAspect;

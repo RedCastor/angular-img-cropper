@@ -68,15 +68,21 @@
         minHeight: "=",
         enforceCropAspect: "=",
         enforceFileType: "@",
-        color: "@"
+        color: "@",
+        colorDrag: "@",
+        colorBg: '@',
+        colorCropBg: '@'
       },
       restrict: "A",
       link: function (scope, element, attrs) {
-        
+
         var crop, destroyed = false;
         var canvas = element[0];
 
         scope.color = scope.color || 'rgba(90,90,90,0.75)';
+        scope.colorDrag = scope.colorDrag || 'rgba(0, 0, 0, 0.7)';
+        scope.colorBg = scope.colorBg || 'rgba(192,192,192,1)';
+        scope.colorCropBg = scope.colorCropBg || 'rgba(0, 0, 0, 0.7)';
 
         scope.$on('$destroy', function () {
           destroyed = true;
@@ -87,7 +93,7 @@
             return;
           }
 
-          
+
           var width = scope.cropWidth;
           var height = scope.cropHeight;
           var keepAspect = scope.keepAspect;
@@ -246,9 +252,10 @@
   mod.factory('CornerMarker', function(Handle, __extends) {
      var CornerMarker = (function (_super) {
           __extends(CornerMarker, _super);
-          function CornerMarker(x, y, radius, color) {
+          function CornerMarker(x, y, radius, color, colorCropBg) {
             _super.call(this, x, y, radius);
             this.color = color | 'rgba(90,90,90,0.75)';
+            this.colorCropBg = colorCropBg | 'rgba(0,0,0,1)';
           }
 
           CornerMarker.prototype.drawCornerBorder = function (ctx) {
@@ -296,7 +303,7 @@
             ctx.lineTo(this.position.x, this.position.y + (sideLength * vDirection));
             ctx.lineTo(this.position.x, this.position.y);
             ctx.closePath();
-            ctx.fillStyle = 'rgba(0,0,0,1)';
+            ctx.fillStyle = this.colorCropBg;
             ctx.fill();
           };
           CornerMarker.prototype.moveX = function (x) {
@@ -571,10 +578,10 @@
       this.cropCanvas = document.createElement('canvas');
       this.buffer.width = canvas.width;
       this.buffer.height = canvas.height;
-      this.tl = new CornerMarker(x,y,touchRadius);
-      this.tr = new CornerMarker(x + width,y,touchRadius);
-      this.bl = new CornerMarker(x,y + height,touchRadius);
-      this.br = new CornerMarker(x + width,y + height,touchRadius);
+      this.tl = new CornerMarker(x,y,touchRadius, this.scope.colorDrag, this.scope.colorCropBg);
+      this.tr = new CornerMarker(x + width,y,touchRadius, this.scope.colorDrag, this.scope.colorCropBg);
+      this.bl = new CornerMarker(x,y + height,touchRadius, this.scope.colorDrag, this.scope.colorCropBg);
+      this.br = new CornerMarker(x + width,y + height,touchRadius, this.scope.colorDrag, this.scope.colorCropBg);
       this.tl.addHorizontalNeighbour(this.tr);
       this.tl.addVerticalNeighbour(this.bl);
       this.tr.addHorizontalNeighbour(this.tl);
@@ -585,7 +592,7 @@
       this.br.addVerticalNeighbour(this.tr);
       this.markers = [this.tl, this.tr, this.bl, this.br];
       // TODO: pass color to dragmarker
-      this.center = new DragMarker(x + (width / 2),y + (height / 2),touchRadius);
+      this.center = new DragMarker(x + (width / 2),y + (height / 2),touchRadius, this.scope.colorDrag);
       this.canvas = canvas;
       this.ctx = this.canvas.getContext("2d");
       this.keepAspect = keepAspect;
@@ -641,7 +648,7 @@
         }
         this.drawImageIOSFix(ctx, this.srcImage, 0, 0, this.srcImage.width, this.srcImage.height, sx, sy, w, h);
         this.buffer.getContext('2d').drawImage(this.canvas, 0, 0, this.canvasWidth, this.canvasHeight);
-        ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+        ctx.fillStyle = this.scope.colorCropBg;
         ctx.fillRect(sx, sy, w, h);
         ctx.drawImage(this.buffer, bounds.left, bounds.top, Math.max(bounds.getWidth(), 1), Math.max(bounds.getHeight(), 1), bounds.left, bounds.top, bounds.getWidth(), bounds.getHeight());
         var marker;
@@ -654,7 +661,7 @@
         ctx.strokeStyle = this.scope.color;
         ctx.strokeRect(bounds.left, bounds.top, bounds.getWidth(), bounds.getHeight());
       } else {
-        ctx.fillStyle = 'rgba(192,192,192,1)';
+        ctx.fillStyle = this.scope.colorBg;
         ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
       }
     }

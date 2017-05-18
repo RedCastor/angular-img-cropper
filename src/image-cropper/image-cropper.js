@@ -36,10 +36,10 @@
       this.cropCanvas = document.createElement('canvas');
       this.buffer.width = canvas.width;
       this.buffer.height = canvas.height;
-      this.tl = new CornerMarker(x,y,touchRadius);
-      this.tr = new CornerMarker(x + width,y,touchRadius);
-      this.bl = new CornerMarker(x,y + height,touchRadius);
-      this.br = new CornerMarker(x + width,y + height,touchRadius);
+      this.tl = new CornerMarker(x,y,touchRadius, this.scope.colorDrag, this.scope.colorCropBg);
+      this.tr = new CornerMarker(x + width,y,touchRadius, this.scope.colorDrag, this.scope.colorCropBg);
+      this.bl = new CornerMarker(x,y + height,touchRadius, this.scope.colorDrag, this.scope.colorCropBg);
+      this.br = new CornerMarker(x + width,y + height,touchRadius, this.scope.colorDrag, this.scope.colorCropBg);
       this.tl.addHorizontalNeighbour(this.tr);
       this.tl.addVerticalNeighbour(this.bl);
       this.tr.addHorizontalNeighbour(this.tl);
@@ -50,7 +50,7 @@
       this.br.addVerticalNeighbour(this.tr);
       this.markers = [this.tl, this.tr, this.bl, this.br];
       // TODO: pass color to dragmarker
-      this.center = new DragMarker(x + (width / 2),y + (height / 2),touchRadius);
+      this.center = new DragMarker(x + (width / 2),y + (height / 2),touchRadius, this.scope.colorDrag);
       this.canvas = canvas;
       this.ctx = this.canvas.getContext("2d");
       this.keepAspect = keepAspect;
@@ -106,7 +106,7 @@
         }
         this.drawImageIOSFix(ctx, this.srcImage, 0, 0, this.srcImage.width, this.srcImage.height, sx, sy, w, h);
         this.buffer.getContext('2d').drawImage(this.canvas, 0, 0, this.canvasWidth, this.canvasHeight);
-        ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+        ctx.fillStyle = this.scope.colorCropBg;
         ctx.fillRect(sx, sy, w, h);
         ctx.drawImage(this.buffer, bounds.left, bounds.top, Math.max(bounds.getWidth(), 1), Math.max(bounds.getHeight(), 1), bounds.left, bounds.top, bounds.getWidth(), bounds.getHeight());
         var marker;
@@ -119,7 +119,7 @@
         ctx.strokeStyle = this.scope.color;
         ctx.strokeRect(bounds.left, bounds.top, bounds.getWidth(), bounds.getHeight());
       } else {
-        ctx.fillStyle = 'rgba(192,192,192,1)';
+        ctx.fillStyle = this.scope.colorBg;
         ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
       }
     }
