@@ -84,6 +84,9 @@
       var bounds = this.getBounds();
       if (this.srcImage) {
         ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+        ctx.fillStyle = this.scope.colorBg;
+        ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
         var sourceAspect = this.srcImage.height / this.srcImage.width;
         var canvasAspect = this.canvasHeight / this.canvasWidth;
         var w = this.canvasWidth;

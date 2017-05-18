@@ -10,11 +10,11 @@ var config = {
   dist: './dist'
 };
 
-gulp.task('scripts-clean', (done) => {
+gulp.task('scripts-clean', function(done) {
   return del(config.dist + '/*.js');
 });
 
-gulp.task('scripts', ['scripts-clean'], (done) => {
+gulp.task('scripts', ['scripts-clean'], function(done) {
   return gulp.src(config.js)
     .pipe(concat('angular-img-cropper.js'))
     .pipe(gulp.dest(config.dist))
@@ -28,7 +28,7 @@ gulp.task('scripts', ['scripts-clean'], (done) => {
 
 gulp.task('build', ['scripts']);
 
-gulp.task('watch', ['build'], (done) => {
+gulp.task('watch', ['build'], function(done) {
   gulp.watch(config.js, ['scripts']);
   done();
 });
