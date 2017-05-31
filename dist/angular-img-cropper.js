@@ -561,16 +561,12 @@
       if (keepAspect === void 0) {
         keepAspect = true;
       }
-      if (sourceAspect === void 0) {
-        sourceAspect = true;
-      }
       if (touchRadius === void 0) {
         touchRadius = 20;
       }
       this.scope = scope;
       this.attrs = attrs;
       this.keepAspect = false;
-      this.sourceAspect = false;
       this.aspectRatio = 0;
       this.currentDragTouches = new Array();
       this.isMouseDown = false;
@@ -602,7 +598,7 @@
       this.canvas = canvas;
       this.ctx = this.canvas.getContext("2d");
       this.keepAspect = keepAspect;
-      this.sourceAspect = sourceAspect;
+      this.sourceAspect = sourceAspect || false;
       this.aspectRatio = height / width;
       this.draw(this.ctx);
       this.croppedImage = new Image();
