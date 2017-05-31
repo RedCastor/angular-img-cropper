@@ -62,7 +62,7 @@
         cropWidth: "=",
         cropHeight: "=",
         keepAspect: "=",
-        sourceAspect: "=",
+        keepAspectRatio: "=",
         touchRadius: "=",
         cropAreaBounds: "=",
         minWidth: "=",
@@ -98,11 +98,11 @@
           var width = scope.cropWidth;
           var height = scope.cropHeight;
           var keepAspect = scope.keepAspect;
-          var sourceAspect = scope.sourceAspect;
+          var keepAspectRatio = scope.keepAspectRatio;
           var touchRadius = scope.touchRadius;
           var oldImage = crop && crop.srcImage;
 
-          crop = new ImageCropper(canvas, canvas.width / 2 - width / 2, canvas.height / 2 - height / 2, width, height, keepAspect, sourceAspect, touchRadius, scope, attrs);
+          crop = new ImageCropper(canvas, canvas.width / 2 - width / 2, canvas.height / 2 - height / 2, width, height, keepAspect, keepAspectRatio, touchRadius, scope, attrs);
 
           $(canvas).data('crop.angular-img-cropper', crop);
 
