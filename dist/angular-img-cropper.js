@@ -62,6 +62,7 @@
         cropWidth: "=",
         cropHeight: "=",
         keepAspect: "=",
+        sourceAspect: "=",
         touchRadius: "=",
         cropAreaBounds: "=",
         minWidth: "=",
@@ -97,10 +98,11 @@
           var width = scope.cropWidth;
           var height = scope.cropHeight;
           var keepAspect = scope.keepAspect;
+          var sourceAspect = scope.sourceAspect;
           var touchRadius = scope.touchRadius;
           var oldImage = crop && crop.srcImage;
 
-          crop = new ImageCropper(canvas, canvas.width / 2 - width / 2, canvas.height / 2 - height / 2, width, height, keepAspect, touchRadius, scope, attrs);
+          crop = new ImageCropper(canvas, canvas.width / 2 - width / 2, canvas.height / 2 - height / 2, width, height, keepAspect, sourceAspect, touchRadius, scope, attrs);
 
           $(canvas).data('crop.angular-img-cropper', crop);
 
@@ -543,7 +545,7 @@
 (function(angular, $, mod) {
   'use strict';
   mod.factory('ImageCropper', function(__extends, Handle, Point, PointPool, CropService, DragMarker, CornerMarker, Bounds, CropTouch, imageCropperDataShare) {
-    function ImageCropper(canvas, x, y, width, height, keepAspect, touchRadius, scope, attrs) {
+    function ImageCropper(canvas, x, y, width, height, keepAspect, sourceAspect, touchRadius, scope, attrs) {
       if (x === void 0) {
         x = 0;
       }
@@ -559,12 +561,16 @@
       if (keepAspect === void 0) {
         keepAspect = true;
       }
+      if (sourceAspect === void 0) {
+        sourceAspect = true;
+      }
       if (touchRadius === void 0) {
         touchRadius = 20;
       }
       this.scope = scope;
       this.attrs = attrs;
       this.keepAspect = false;
+      this.sourceAspect = false;
       this.aspectRatio = 0;
       this.currentDragTouches = new Array();
       this.isMouseDown = false;
@@ -596,6 +602,7 @@
       this.canvas = canvas;
       this.ctx = this.canvas.getContext("2d");
       this.keepAspect = keepAspect;
+      this.sourceAspect = sourceAspect;
       this.aspectRatio = height / width;
       this.draw(this.ctx);
       this.croppedImage = new Image();
@@ -1172,9 +1179,9 @@
       if (this.enforceCropAspect) {
         fillWidth = false;
       }
-      else {
-        fillWidth = Math.round(Math.max(bounds.getWidth(), 1) / this.ratioW);
-        fillHeight = Math.round(Math.max(bounds.getHeight(), 1) / this.ratioH);
+      else if (this.sourceAspect) {
+          fillWidth = Math.round(Math.max(bounds.getWidth(), 1) / this.ratioW);
+          fillHeight = Math.round(Math.max(bounds.getHeight(), 1) / this.ratioH);
       }
 
       if (fillWidth && fillHeight) {
