@@ -600,7 +600,7 @@
       this.draw(this.ctx);
       this.croppedImage = new Image();
       this.currentlyInteracting = false;
-      this.enforceCropAspect = this.scope.enforceCropAspect || !this.keepAspect;
+      this.enforceCropAspect = this.scope.enforceCropAspect || false;
       this.enforceFileType = this.scope.enforceFileType ? 'image/' + this.scope.enforceFileType : undefined;
       if (window.jQuery) {
         angular.element(window).off('mousemove.angular-img-cropper mouseup.angular-img-cropper').on('mousemove.angular-img-cropper', this.onMouseMove.bind(this)).on('mouseup.angular-img-cropper', this.onMouseUp.bind(this));
@@ -1151,26 +1151,33 @@
       if (!this.srcImage) {
         throw "Source image not set.";
       }
+
+      var sourceAspect = this.srcImage.height / this.srcImage.width;
+      var canvasAspect = this.canvas.height / this.canvas.width;
+      var w = this.canvas.width;
+      var h = this.canvas.height;
+      if (canvasAspect > sourceAspect) {
+          w = this.canvas.width;
+          h = this.canvas.width * sourceAspect;
+      } else if (canvasAspect < sourceAspect) {
+          h = this.canvas.height;
+          w = this.canvas.height / sourceAspect;
+      } else {
+          h = this.canvas.height;
+          w = this.canvas.width;
+      }
+      this.ratioW = w / this.srcImage.width;
+      this.ratioH = h / this.srcImage.height;
+
       if (this.enforceCropAspect) {
         fillWidth = false;
       }
+      else {
+        fillWidth = Math.round(Math.max(bounds.getWidth(), 1) / this.ratioW);
+        fillHeight = Math.round(Math.max(bounds.getHeight(), 1) / this.ratioH);
+      }
+
       if (fillWidth && fillHeight) {
-        var sourceAspect = this.srcImage.height / this.srcImage.width;
-        var canvasAspect = this.canvas.height / this.canvas.width;
-        var w = this.canvas.width;
-        var h = this.canvas.height;
-        if (canvasAspect > sourceAspect) {
-          w = this.canvas.width;
-          h = this.canvas.width * sourceAspect;
-        } else if (canvasAspect < sourceAspect) {
-          h = this.canvas.height;
-          w = this.canvas.height / sourceAspect;
-        } else {
-          h = this.canvas.height;
-          w = this.canvas.width;
-        }
-        this.ratioW = w / this.srcImage.width;
-        this.ratioH = h / this.srcImage.height;
         this.cropCanvas.width = fillWidth;
         this.cropCanvas.height = fillHeight;
         var offsetH = (this.buffer.height - h) / 2 / this.ratioH;
