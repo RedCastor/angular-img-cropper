@@ -1,7 +1,7 @@
 (function(angular, $, mod) {
   'use strict';
   mod.factory('ImageCropper', function(__extends, Handle, Point, PointPool, CropService, DragMarker, CornerMarker, Bounds, CropTouch, imageCropperDataShare) {
-    function ImageCropper(canvas, x, y, width, height, keepAspect, touchRadius, scope, attrs) {
+    function ImageCropper(canvas, x, y, width, height, keepAspect, sourceAspect, touchRadius, scope, attrs) {
       if (x === void 0) {
         x = 0;
       }
@@ -54,6 +54,7 @@
       this.canvas = canvas;
       this.ctx = this.canvas.getContext("2d");
       this.keepAspect = keepAspect;
+      this.sourceAspect = sourceAspect || false;
       this.aspectRatio = height / width;
       this.draw(this.ctx);
       this.croppedImage = new Image();
@@ -630,9 +631,9 @@
       if (this.enforceCropAspect) {
         fillWidth = false;
       }
-      else {
-        fillWidth = Math.round(Math.max(bounds.getWidth(), 1) / this.ratioW);
-        fillHeight = Math.round(Math.max(bounds.getHeight(), 1) / this.ratioH);
+      else if (this.sourceAspect) {
+          fillWidth = Math.round(Math.max(bounds.getWidth(), 1) / this.ratioW);
+          fillHeight = Math.round(Math.max(bounds.getHeight(), 1) / this.ratioH);
       }
 
       if (fillWidth && fillHeight) {
